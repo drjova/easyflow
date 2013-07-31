@@ -1,0 +1,8 @@
+# coding: utf8
+
+def view_workflows():
+    form = SQLFORM(db.workflow_type).process()
+    if form.accepted:
+        response.flash = 'new record inserted'
+    records = SQLTABLE(db().select(db.workflow_type.ALL),headers='fieldname:capitalize')
+    return dict(form=form, records=records)

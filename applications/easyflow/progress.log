@@ -1,1 +1,9 @@
 [2013-07-31 18:20:36] START
+[2013-07-31 18:33:50] CREATE workflow.py: 0
+[2013-07-31 18:38:56] EDIT easyflow/models/workflow.py: 6
+[2013-07-31 18:48:53] CREATE workflow.py: 0
+[2013-07-31 18:51:52] EDIT easyflow/controllers/workflow.py: 5
+[2013-07-31 18:52:37] CREATE view_workflows.html: 0
+[2013-07-31 18:54:47] EDIT easyflow/views/workflow/view_workflows.html: 2
+[2013-07-31 18:57:52] EDIT easyflow/controllers/workflow.py: 0
+[2013-07-31 18:59:13] EDIT easyflow/controllers/workflow.py: 0

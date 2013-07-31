@@ -53,3 +53,10 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
+timestamp: 2013-07-31T18:39:07.095416
+CREATE TABLE workflow_types(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name CHAR(512),
+    description CHAR(512)
+);
+success!
