@@ -2,7 +2,22 @@
 
 {{block head}}
 <script type="text/javascript">
-  
+  	$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
 	
 	angular.module('workflows', []).
 	 config(['$routeProvider', function($routeProvider) {
@@ -10,7 +25,6 @@
 	      when('', {templateUrl: "{{=URL('static','templates/workflow/list.html')}}",   controller: workflowList}).
 	      when('/edit/:workflowID', {templateUrl: "{{=URL('static','templates/workflow/details.html')}}", controller: workflowDetails}).
 	      when('/create', {templateUrl: "{{=URL('static','templates/workflow/create.html')}}", controller: workflowCreate}).
-	      when('/start/:workflowID', {templateUrl: "{{=URL('static','templates/workflow/list.html')}}",controller: workflowStart}).
 	      otherwise({redirectTo: '/'});
 	}]);
 	 function workflowList($scope, $http) {
@@ -27,16 +41,44 @@
 	 	
 	  		
 	  }
-	  function workflowCreate(){
-	  		
-	  }
-	  function workflowStart($scope,$routeParams,$http){
-	  	$scope.workflowID = $routeParams.workflowID;
 
-	  	$http.get("{{=URL('workflow','start.json')}}?workflow_id="+$scope.workflowID).success(function(data) {
-   			console.log(data);
-  		});
+	  function workflowCreate($scope,$routeParams,$http){
+
+	  	$('.modal').modal();
+
 	  }
+
+	  function workflowManager($http,$scope){
+ 			$scope.start  = function(workflowID,$event){
+	  			$http.get("{{=URL('workflow','start.json')}}?workflowID="+workflowID).success(function(data) {
+		  			console.log(data);
+		 		});
+	  		}
+	  		$scope.delete  = function(workflowID,$event){
+	  			$http.get("{{=URL('workflow','delete.json')}}?workflowID="+workflowID).success(function(data) {
+	  				if(!data.error){
+		  				$($event.target).parent().fadeOut();
+		  			}
+		 		});
+	  		}
+
+	  }
+	 function workflowCreator($http,$scope){
+	 	
+	 	$scope.add = function(){
+	 		$('.repeaters').append(' <div class="panel"><div class="panel-heading">Status #1</div><div class="repeat-input"><input type="text" name="status_title[]" placeholder="Title"><input type="text" name="status_description[]" placeholder="Description"></div><hr/><div class="details"><div class="repeat-detail"><label>Detail name</label><input type="text" name="detail_name[]"><label>Detail Type</label><select name="detail_type" disabled><option>Textfield</option></select></div></div></div></div>');
+	 	}
+	 	$scope.submit = function(){
+	 		console.log('running')
+	 		console.log($('form').serializeObject())
+	 		
+	 	}
+	 	$scope.add_details = function(){
+
+	 		$('.details').append('<div class="repeat-detail"><label>Detail name</label><input type="text" name="detail_name[]"><label>Detail Type</label><select name="detail_type" disabled><option>Textfield</option></select><a href="javascript:void(0)" ng-click="add_details()">Add details</a></div>');
+	 	}
+
+	 }
 
 
 	</script>
@@ -46,7 +88,6 @@
 <h2> {{= title}}</h2>
 <div class="">
 
-	<a href="#create">Create new workflow</a>
 
 <div class="wrokflows-list">
 	 <div ng-view></div>

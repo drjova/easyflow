@@ -1,5 +1,5 @@
 # coding: utf8
-
+from gluon.tools import Service
 service = Service()
 
 def index():
@@ -15,8 +15,23 @@ def view():
      return dict(records=rows)
 
 def start():
-    workflow_id = request.vars.workflow_id
-    return dict(workflow_id=workflow_id)
+    workflowID = request.vars.workflowID
+    if workflowID:
+        response.flash = "New instance created!"
+        return dict(record=workflowID,error=False,message='Workflow successfuly added!')
+    else:
+        return dict(record=workflowID,error=True,message='WorkflowID is empty!')
+def delete():
+    workflowID = request.vars.workflowID
+    if workflowID:
+        db(db.workflow.id == workflowID).delete()
+        return dict(record=workflowID,error=False,message='Successfuly deleted!')
+    else:
+        return dict(record=workflowID,error=True,message='WorkflowID is empty!')
+@service.json
+def create(a):
+    return dict(record=a)
+
 def single():
    record = db.workflow(request.args(0)) or redirect(URL('view'))
    return dict(records=record)
@@ -26,7 +41,9 @@ def user(): return dict(form=auth())
 
 #def index():
 #redirect(URL('view'))
-
+def call():
+    session.forget()
+    return service()
 @auth.requires_login()
 def details():
     form = SQLFORM.smartgrid(db.workflow)

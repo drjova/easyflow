@@ -1,13 +1,19 @@
 <div class="well">
-
+	
+	<a href="#create">Create new workflow</a>
 	<input type="text" ng-model="query">
 
 </div>
 
 {{workflowID}}
 
-<ul ng-repeat="workflow in workflows | filter:query">
+<ul ng-repeat="workflow in workflows | filter:query" ng-controller="workflowManager">
 
-	<li>{{workflow.name}} - {{workflow.description}} <a class='btn btn-success' href="#edit/{{workflow.id}}">Edit</a> <a class='btn btn-default' href="#start/{{workflow.id}}">Start new</a> <a class='btn btn-default' href="#start/{{workflow.id}}">Delete</a></li>
+	<li>{{workflow.name}} - {{workflow.description}} <a class='btn btn-success' href="#edit/{{workflow.id}}">Edit</a>
+
+	 <a href="javascript:void(0)" ng-click="start(workflow.id,$event)">Start new Workflow</a> 
+
+	 <a href="javascript:void(0)" ng-click="delete(workflow.id,$event)">delete</a> 
+	 
 
 </ul>

@@ -1,24 +1,48 @@
-<form>
+<form ng-controller="workflowCreator">
   <fieldset>
-    <legend>Legend</legend>
     <div class="form-group">
-      <label for="exampleInputEmail">Email address</label>
-      <input type="text" class="form-control" id="exampleInputEmail" placeholder="Enter email">
-    </div>
-    <div class="form-group">
-      <label for="exampleInputPassword">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword" placeholder="Password">
+      
+      <input type="text" class="form-control" id="exampleInputEmail" placeholder="Title">
     </div>
     <div class="form-group">
-      <label for="exampleInputFile">File input</label>
-      <input type="file" id="exampleInputFile">
-      <p class="help-block">Example block-level help text here.</p>
+       <label for="exampleInputEmail">Description</label>
+      <textarea name="description" class="form-control" rows="3"></textarea>
     </div>
-    <div class="checkbox">
-      <label>
-        <input type="checkbox"> Check me out
-      </label>
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
+    </fieldset>
+    <fieldset>
+    
+    <div class="repeaters">
+          <!-- Panel 1 -->
+          <div class="panel">
+            <div class="panel-heading">Status #1</div>
+                 <div class="repeat-input">
+                        <input type="text" name="status_title[]" placeholder="Title">
+                        <input type="text" name="status_description[]" placeholder="Description">
+                 </div>
+                 <hr />
+                 <div class="details">
+                      <a href="javascript:void(0)" ng-click="add_details()">Add details</a>
+                      <div class="repeat-detail">
+                        <label>Detail name</label>
+                        <input type="text" name="detail_name[]"> 
+                        <label>Detail Type</label>
+                        <select name="detail_type" disabled><option>Textfield</option></select>
+
+
+                      </div>
+                 </div>
+            </div>  
+          </div>
+          <!-- Panel 1 -->
+
+    </div>  
+
+    
   </fieldset>
+
+    
+    <a href="javascript:void(0)" class="btn btn-block btn-primary" ng-click="add()">Add</a>
+<div class="clearfix"></div>
+    <button type="submit" class="btn btn-default" ng-click="submit()">Submit</button>
+    
 </form>
