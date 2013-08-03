@@ -1,51 +1,34 @@
 {{extend 'layout.html'}}
 
 {{block head}}
-	<script type="text/javascript">
+<script type="text/javascript">
   
-  angular.module('workflows', ['ngResource']).
-    factory('Workflow', function($resource){
-	  return $resource('http://127.0.0.1:8000/easyflow/workflow/view.json', {}, {
-	    query: {method:'GET'}, isArray:true}
-	  });
-  }).config(function($routeProvider) {
-    $routeProvider.
-      when('/', {controller:ListCtrl, templateUrl:'list.html'}).
-      when('/edit/:projectId', {controller:EditCtrl, templateUrl:'detail.html'}).
-      when('/new', {controller:CreateCtrl, templateUrl:'detail.html'}).
-      otherwise({redirectTo:'/'});
-  });
- 
-	function ListCtrl($scope, Projects) {
-	  $scope.projects = Workflow;
-	}
-	 
-	function CreateCtrl($scope, $location, $timeout, Projects) {
-	  $scope.save = function() {
-	    Projects.add($scope.project, function() {
-	      $timeout(function() { $location.path('/'); });
-	    });
+	
+	angular.module('workflows', []).
+	 config(['$routeProvider', function($routeProvider) {
+	  $routeProvider.
+	      when('', {templateUrl: "{{=URL('static','templates/list.html')}}",   controller: workflowList}).
+	      when('/edit/:workflowID', {templateUrl: "{{=URL('static','templates/details.html')}}", controller: workflowDetails}).
+	      when('/create', {templateUrl: "{{=URL('static','templates/create.html')}}", controller: workflowCreate}).
+	      otherwise({redirectTo: '/'});
+	}]);
+	 function workflowList($scope, $http) {
+		  $http.get('http://127.0.0.1:8000/easyflow/workflow/view.json').success(function(data) {
+		  	$scope.workflows = data.records;
+		  });
+		 
+	 }
+	 function workflowDetails($scope, $routeParams,$http) {
+	 	$scope.workflowID = $routeParams.workflowID;
+		$http.get("{{=URL('workflow','single.json')}}" +'/'+ $routeParams.workflowID).success(function(data) {
+   			$scope.workflow = data.records
+  		});
+	 	
+	  		
 	  }
-	}
-	 
-	function EditCtrl($scope, $location, $routeParams, angularFire, fbURL) {
-	  angularFire(fbURL + $routeParams.projectId, $scope, 'remote', {}).
-	  then(function() {
-	    $scope.project = angular.copy($scope.remote);
-	    $scope.project.$id = $routeParams.projectId;
-	    $scope.isClean = function() {
-	      return angular.equals($scope.remote, $scope.project);
-	    }
-	    $scope.destroy = function() {
-	      $scope.remote = null;
-	      $location.path('/');
-	    };
-	    $scope.save = function() {
-	      $scope.remote = angular.copy($scope.project);
-	      $location.path('/');
-	    };
-	  });
-	}
+	  function workflowCreate(){
+	  	
+	  }
 
 
 
@@ -59,7 +42,7 @@
 	<a href="#create">Create new workflow</a>
 </div>
 <div class="wrokflows-list">
-
+	 <div ng-view></div>
 </div>
 </div>
 
