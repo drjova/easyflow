@@ -2,6 +2,8 @@
 *.pyc
 *.pid
 *.log
+*.bak
+applications/easyflow/*.log
 applications/easyflow/errors/
 applications/easyflow/sessions/
 applications/admin/sessions/
