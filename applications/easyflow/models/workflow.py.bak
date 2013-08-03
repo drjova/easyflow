@@ -1,1 +1,31 @@
 # coding: utf8
+
+db.define_table(
+        'workflow',
+        Field('id'),
+        Field('name'),
+        Field('description'),
+        format = '%(name)s')
+db.define_table(
+        'status',
+        Field('id'),
+        Field('name'),
+        Field('description'),
+        Field('order'),
+        Field('workflow_id', db.workflow)
+        format = '%(name)s')
+db.define_table(
+        'details',
+        Field('id'),
+        Field('name'),
+        Field('description'),
+        Field('order'),
+        Field('status_id', db.status)
+        format = '%(name)s')
+db.define_table(
+        'instances',
+        Field('id'),
+        Field('workflow_id',db.workflow),
+        Field('user_id',db.user),
+        Field('status_id',db.status)
+        format = '%(name)s')

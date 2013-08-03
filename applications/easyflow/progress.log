@@ -7,3 +7,12 @@
 [2013-07-31 18:54:47] EDIT easyflow/views/workflow/view_workflows.html: 2
 [2013-07-31 18:57:52] EDIT easyflow/controllers/workflow.py: 0
 [2013-07-31 18:59:13] EDIT easyflow/controllers/workflow.py: 0
+[2013-08-01 09:43:23] EDIT easyflow/models/workflow.py: 23
+[2013-08-01 09:43:51] EDIT easyflow/models/workflow.py: 0
+[2013-08-01 09:45:14] EDIT easyflow/controllers/workflow.py: 2
+[2013-08-01 09:45:15] EDIT easyflow/controllers/workflow.py: 0
+[2013-08-01 09:45:51] EDIT easyflow/controllers/workflow.py: 2
+[2013-08-01 09:48:33] EDIT easyflow/controllers/workflow.py: 0
+[2013-08-01 09:50:50] EDIT easyflow/controllers/workflow.py: 0
+[2013-08-01 09:50:51] EDIT easyflow/controllers/workflow.py: 0
+[2013-08-01 09:59:33] EDIT easyflow/controllers/workflow.py: -1
