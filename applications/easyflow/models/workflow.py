@@ -7,49 +7,49 @@ crud = Crud(db)
 
 db.define_table(
         'workflow',
-        Field('id',ondelete='CASCADE'),
-        Field('name'),
-        Field('description'),
-        Field('dataowner', db.auth_user, default=auth.user.id if auth.user
-        else None, writable=False, readable=False),
+        Field('id', ondelete='CASCADE'),
+        Field('name', "string", default = None),
+        Field('description', "string", default = None),
+        Field('logo', "string", default = None),
+        Field('user_id', db.auth_user, default = auth.user.id if auth.user else None, readable = False, writable = False),
         format = '%(name)s')
 
 db.define_table(
         'status',
         Field('id'),
-        Field('name'),
-        Field('description'),
-        Field('order_to_workflow'),
+        Field('name', "string", default = None),
+        Field('description', "string", default = None),
+        Field('workflow_order', "integer", default = 1),
         Field('workflow_id', db.workflow),
-        Field('dataowner', db.auth_user, default=auth.user.id if auth.user
-        else None, writable=False, readable=False),
+        Field('user_id', db.auth_user, default = auth.user.id if auth.user else None, readable = False, writable = False),
         format = '%(name)s')
 
 db.define_table(
-        'details',
+        'detail',
         Field('id'),
-        Field('name'),
-        Field('description'),
-        Field('order_to_status'),
+        Field('name', "string", default = None),
+        Field('description', "string", default = None),
+        Field('status_order', "integer", default = 1),
         Field('status_id', db.status),
-        Field('dataowner', db.auth_user, default=auth.user.id if auth.user
-        else None, writable=False, readable=False),
+        Field('user_id', db.auth_user, default = auth.user.id if auth.user else None, readable = False, writable = False),
         format = '%(name)s')
 
 db.define_table(
-        'instances',
+        'occurrence',
         Field('id'),
+        Field('name', "string", default = None),
+        Field('description', "string", default = None),
         Field('workflow_id', db.workflow),
-        Field('active_status_id', db.status),
-        Field('status',default=0),
+        Field('status_id', db.status),
+        Field('user_id', db.auth_user, default = auth.user.id if auth.user else None, readable = False, writable = False),
+        Field('is_active', "boolean", default = True),
         format = '%(name)s')
 
 db.define_table(
-        'instances_details',
-        Field('id'),
-        Field('detail_id', db.details),
-        Field('instance_id', db.instances),
-        Field('instanceValue'),
+        'occurrence_detail',
+        Field('occurrence_id', db.occurrence),
+        Field('detail_id', db.detail),
+        Field('detail_value', "string", default = None),
         format = '%(name)s')
 
 db.workflow.name.requires = IS_NOT_EMPTY()

@@ -1,5 +1,7 @@
 {{extend 'layout.html'}}
 
+{{=occurrences}}
+
 <div id="workflow_instance_x">
 
     <div id="workflow_instance_x_title" style="margin-bottom: 25px;">
@@ -10,7 +12,7 @@
             data-content="Description of this workflow type"
             data-trigger="click"
             class="workflow_logo">
-                <img style="width: 75px;" src="/easyflow/static/images/epublishing_workflow_logo.png" />
+                <img style="width: 75px;" src="/easyflow/static/images/workflow_logo_epublishing.png" />
         </div>
 
         <div style="display: inline-block; vertical-align: bottom;">
@@ -85,8 +87,10 @@
     var total_connections = $("#workflow_instance_x_progress").children("div[class='status_past_connect']").length + $("#workflow_instance_x_progress").children("div[class='status_future_connect']").length;
     var available_width = ( total_width - ( ( total_connections + 1 ) * 25 ));
     var connection_width = ( available_width / total_connections );
-    $("#workflow_instance_x_progress").children("div[class='status_past_connect']").width(connection_width);
-    $("#workflow_instance_x_progress").children("div[class='status_future_connect']").width(connection_width);
+    //$("#workflow_instance_x_progress").children("div[class='status_past_connect']").width(connection_width);
+    $("#workflow_instance_x_progress").children("div[class='status_past_connect']").animate({ width : connection_width + "px" }, 1000);
+    //$("#workflow_instance_x_progress").children("div[class='status_future_connect']").width(connection_width);
+    $("#workflow_instance_x_progress").children("div[class='status_future_connect']").animate({ width : connection_width + "px" }, 1000);
 
     $("#workflow_instance_x").find("div").popover({ html : true , placement : "auto" });
     //$("#workflow_instance_x_progress").find("div[class='status_circle status_present']").popover("show");

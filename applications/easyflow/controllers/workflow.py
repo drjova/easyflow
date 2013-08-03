@@ -3,7 +3,7 @@ from gluon.tools import Service
 service = Service()
 
 def index():
-  records = db(db.workflow.dataowner==auth.user_id).select()
+  records = db(db.workflow.user_id==auth.user_id).select()
   if len(records) > 0:
     records = records
   else:
@@ -11,7 +11,7 @@ def index():
   return dict(title='Workflows',records=records,app='workflows')
 
 def view():
-     rows = db(db.workflow.dataowner==2).select()
+     rows = db(db.workflow.user_id==2).select()
      return dict(records=rows)
 
 def start():
