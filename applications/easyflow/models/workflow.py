@@ -1,6 +1,6 @@
 # coding: utf8
 from gluon.tools import Auth
-auth = Auth(db)
+auth = Auth(db, controller="home")
 auth.define_tables()
 from gluon.tools import Crud
 crud = Crud(db)

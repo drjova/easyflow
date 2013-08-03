@@ -1,0 +1,27 @@
+.status_circle {
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+    /*behavior: url(PIE.htc);*/
+}
+
+.status_past {
+    width: 15px;
+    height: 15px;
+    background: black;
+    border: 3px solid black;
+}
+
+.status_present {
+    width: 15px;
+    height: 15px;
+    background: red;
+    border: 3px solid black;
+}
+
+.status_future {
+    width: 15px;
+    height: 15px;
+    background: white;
+    border: 3px solid black;
+}
