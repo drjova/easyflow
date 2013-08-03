@@ -1,5 +1,5 @@
 (dp1
-S'workflow_id'
+S'status'
 p2
 (dp3
 S'length'
@@ -10,57 +10,57 @@ p5
 I00
 sS'sortable'
 p6
-I2
+I4
 sS'sql'
 p7
-S'INTEGER REFERENCES workflow (id) ON DELETE CASCADE'
+S'CHAR(512)'
 p8
 sS'notnull'
 p9
 I00
 sS'type'
 p10
-S'reference workflow'
+S'string'
 p11
-ssS'user_id'
+ssS'workflow_id'
 p12
 (dp13
-S'sortable'
-p14
-I3
-sS'sql'
-p15
-S'INTEGER REFERENCES users (id) ON DELETE CASCADE'
-p16
-sS'length'
-p17
-I512
-sS'notnull'
-p18
-I00
-sS'unique'
-p19
-I00
-sS'type'
-p20
-S'reference users'
-p21
-ssS'id'
-p22
-(dp23
 g4
 I512
 sg5
 I00
 sg6
-I1
+I2
 sg7
-S'INTEGER PRIMARY KEY AUTOINCREMENT'
-p24
+S'INTEGER REFERENCES workflow (id) ON DELETE CASCADE'
+p14
 sg9
 I00
 sg10
-S'id'
+S'reference workflow'
+p15
+ssS'user_id'
+p16
+(dp17
+S'sortable'
+p18
+I3
+sS'sql'
+p19
+S'INTEGER REFERENCES users (id) ON DELETE CASCADE'
+p20
+sS'length'
+p21
+I512
+sS'notnull'
+p22
+I00
+sS'unique'
+p23
+I00
+sS'type'
+p24
+S'reference users'
 p25
 ssS'active_status_id'
 p26
@@ -102,4 +102,21 @@ sS'type'
 p38
 S'reference status'
 p39
+ssS'id'
+p40
+(dp41
+g4
+I512
+sg5
+I00
+sg6
+I1
+sg7
+S'INTEGER PRIMARY KEY AUTOINCREMENT'
+p42
+sg9
+I00
+sg10
+S'id'
+p43
 ss.

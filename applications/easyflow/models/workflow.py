@@ -7,7 +7,7 @@ crud = Crud(db)
 
 db.define_table(
         'workflow',
-        Field('id'),
+        Field('id',ondelete='CASCADE'),
         Field('name'),
         Field('description'),
         Field('dataowner', db.auth_user, default=auth.user.id if auth.user
@@ -41,6 +41,7 @@ db.define_table(
         Field('id'),
         Field('workflow_id', db.workflow),
         Field('active_status_id', db.status),
+        Field('status',default=0),
         format = '%(name)s')
 
 db.define_table(

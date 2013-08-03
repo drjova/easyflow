@@ -7,9 +7,10 @@
 	angular.module('workflows', []).
 	 config(['$routeProvider', function($routeProvider) {
 	  $routeProvider.
-	      when('', {templateUrl: "{{=URL('static','templates/list.html')}}",   controller: workflowList}).
-	      when('/edit/:workflowID', {templateUrl: "{{=URL('static','templates/details.html')}}", controller: workflowDetails}).
-	      when('/create', {templateUrl: "{{=URL('static','templates/create.html')}}", controller: workflowCreate}).
+	      when('', {templateUrl: "{{=URL('static','templates/workflow/list.html')}}",   controller: workflowList}).
+	      when('/edit/:workflowID', {templateUrl: "{{=URL('static','templates/workflow/details.html')}}", controller: workflowDetails}).
+	      when('/create', {templateUrl: "{{=URL('static','templates/workflow/create.html')}}", controller: workflowCreate}).
+	      when('/start/:workflowID', {templateUrl: "{{=URL('static','templates/workflow/list.html')}}",controller: workflowStart}).
 	      otherwise({redirectTo: '/'});
 	}]);
 	 function workflowList($scope, $http) {
@@ -29,7 +30,13 @@
 	  function workflowCreate(){
 	  		
 	  }
+	  function workflowStart($scope,$routeParams,$http){
+	  	$scope.workflowID = $routeParams.workflowID;
 
+	  	$http.get("{{=URL('workflow','start.json')}}?workflow_id="+$scope.workflowID).success(function(data) {
+   			console.log(data);
+  		});
+	  }
 
 
 	</script>

@@ -15,17 +15,8 @@ def view():
      return dict(records=rows)
 
 def start():
-    workflow_id = request.args.workflow_id
-    try:
-      inserted_id = db.instances.insert(workflow_id=workflow_id,active_status_id=0)
-      return dict(error='false',message='Succesfully inserted',id=inserted_id)
-    except:
-      return dict(error='true',message='We cant save it to db')
-      pass
-
-
-
-
+    workflow_id = request.vars.workflow_id
+    return dict(workflow_id=workflow_id)
 def single():
    record = db.workflow(request.args(0)) or redirect(URL('view'))
    return dict(records=record)
