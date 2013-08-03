@@ -1,44 +1,82 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto);
+@import url(http://fonts.googleapis.com/css?family=Quicksand);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+
 .status_circle {
     -webkit-border-radius: 999px;
     -moz-border-radius: 999px;
     border-radius: 999px;
     /*behavior: url(PIE.htc);*/
     display: inline-block;
+    z-index: 100;
+    position: relative;
 }
 
 .status_past {
-    width: 20px;
-    height: 20px;
-    background: black;
-    border: 3px solid black;
+    width: 25px;
+    height: 25px;
+    background: white;
+    border: 3px solid #ccc;
+    z-index: 100;
+    position: relative;
 }
 
 .status_present {
-    width: 20px;
-    height: 20px;
-    background: red;
+    width: 25px;
+    height: 25px;
+    background: white;
     border: 3px solid black;
+    z-index: 100;
+    position: relative;
 }
 
 .status_future {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     background: white;
     border: 3px solid black;
+    z-index: 100;
+    position: relative;
 }
 
-.status_connect {
-    border-top: 3px solid black;
-    border-bottom: 3px solid black;
-    width: 100px;
-    height: 10px;
+.status_past_connect {
+    border-top: 3px solid #ccc;
+    border-bottom: 3px solid #ccc;
+    background-color: #ccc;
+    width: 10px;
+    height: 13px;
     display: inline-block;
-    margin-bottom: 5px;
-    margin-top: 5px;
+    margin-bottom: 6px;
+    margin-top: 6px;
     margin-left: -5px;
     margin-right: -5px;
+    z-index: 99;
+    position: relative;
+}
+
+.status_future_connect {
+    border-top: 3px solid #2980b9;
+    border-bottom: 3px solid #2980b9;
+    background-color: #2980b9;
+    width: 10px;
+    height: 13px;
+    display: inline-block;
+    margin-bottom: 6px;
+    margin-top: 6px;
+    margin-left: -5px;
+    margin-right: -5px;
+    z-index: 99;
+    position: relative;
 }
 
 .workflow_logo {
     display: inline-block;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+h2 {
+    font-family: 'QuickSand', sans-serif;
 }

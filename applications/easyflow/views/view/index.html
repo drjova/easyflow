@@ -1,19 +1,94 @@
 {{extend 'layout.html'}}
-<h3 style="display: none;">{{=message}}</h3>
 
-<div id="i1">
-    <div class="workflow_logo"><img style="width: 75px;" src="static/images/epublishing_workflow_logo.png" /></div>
-    <div class="status_circle status_past"></div>
-    <div class="status_connect"></div>
-    <div class="status_circle status_present"></div>
-    <div class="status_connect"></div>
-    <div class="status_circle status_future"></div>
+<div id="workflow_instance_x">
+
+    <div id="workflow_instance_x_title" style="margin-bottom: 25px;">
+
+        <div
+            id="w_t_1"
+            data-title="E-Publishing"
+            data-content="Description of this workflow type"
+            data-trigger="click"
+            class="workflow_logo">
+                <img style="width: 75px;" src="/easyflow/static/images/epublishing_workflow_logo.png" />
+        </div>
+
+        <div style="display: inline-block; vertical-align: bottom;">
+            <h2>Collisions of particles</h2>
+        </div>
+
+    </div>
+
+    <div id="workflow_instance_x_progress">
+
+        <div
+            id="w_t_s_1"
+            data-title="<strong>Gathering the contributions</strong>"
+            data-content="<strong>Editor:</strong> H. Tzovanakis<br /><strong>Contributions:</strong> 56"
+            data-trigger="hover"
+            class="status_circle status_past">
+        </div>
+
+        <div class="status_past_connect">
+        </div>
+
+        <div
+            id="w_t_s_2"
+            data-title="<strong>Copy-editing</strong>"
+            data-content="<strong>ETA:</strong> 3 weeks<br /><strong>Cost:</strong> CHF 450"
+            data-trigger="hover"
+            class="status_circle status_present">
+        </div>
+
+        <div class="status_future_connect">
+        </div>
+
+        <div
+            id="w_t_s_3"
+            data-title="<strong>CREB Approval</strong>"
+            data-content="Pending"
+            data-trigger="hover"
+            class="status_circle status_future">
+        </div>
+
+        <div class="status_future_connect">
+        </div>
+
+        <div
+            id="w_t_s_4"
+            data-title="<strong>Printing</strong>"
+            data-content="Pending"
+            data-trigger="hover"
+            class="status_circle status_future">
+        </div>
+
+        <div class="status_future_connect">
+        </div>
+
+        <div
+            id="w_t_s_5"
+            data-title="<strong>Shipping</strong>"
+            data-content="Pending..."
+            data-trigger="hover"
+            class="status_circle status_future">
+        </div>
+
+    </div>
+
 </div>
 
+<hr />
+
 <script type="text/javascript">
-    var total_width = $("#i1").width();
-    var total_connections = $("#i1").children("div[class='status_connect']").length;
-    var available_width = ( total_width - ( ( total_connections + 1 ) * 20 ) - 75 );
+
+    var total_width = $("#workflow_instance_x_progress").width();
+    var total_connections = $("#workflow_instance_x_progress").children("div[class='status_past_connect']").length + $("#workflow_instance_x_progress").children("div[class='status_future_connect']").length;
+    var available_width = ( total_width - ( ( total_connections + 1 ) * 25 ));
     var connection_width = ( available_width / total_connections );
-    $("#i1").children("div[class='status_connect']").width(connection_width);
+    $("#workflow_instance_x_progress").children("div[class='status_past_connect']").width(connection_width);
+    $("#workflow_instance_x_progress").children("div[class='status_future_connect']").width(connection_width);
+
+    $("#workflow_instance_x").find("div").popover({ html : true , placement : "auto" });
+    //$("#workflow_instance_x_progress").find("div[class='status_circle status_present']").popover("show");
+
 </script>
