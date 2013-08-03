@@ -3,15 +3,22 @@
 service = Service()
 
 @auth.requires_login()
+def index():
+  records = db(db.workflow.dataowner==auth.user_id).select()
+  if len(records) > 0:
+    records = records
+  else:
+    records = 'No records yet'
+  templateFile = os.path.join(paths.get_prog_root(), 'templates', 'view.html')
+  return dict(title='Workflows',records=records,app='workflows',tem=templateFile)
+
+
+@auth.requires_login()
 def create():
     form = SQLFORM(db.workflow).process()
     if form.accepted:
         response.flash = 'new record inserted'
     return dict(form=form)
-
-@service.json
-def drjova(a,b):
-  return a+b
 
 @auth.requires_login()
 def view():
@@ -31,8 +38,8 @@ def edit():
       return 'Hello'
 def user(): return dict(form=auth())
 
-def index():
-	 redirect(URL('view'))
+#def index():
+#redirect(URL('view'))
 
 @auth.requires_login()
 def details():
