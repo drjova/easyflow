@@ -3,3 +3,7 @@
 *.pid
 applications/easyflow/errors/
 applications/easyflow/sessions/
+libpeerconnection.log
+applications/admin/sessions/
+applications/admin/errors/
+*.log
