@@ -1,9 +1,9 @@
 *.swp
 *.pyc
 *.pid
+*.log
 applications/easyflow/errors/
 applications/easyflow/sessions/
-libpeerconnection.log
 applications/admin/sessions/
 applications/admin/errors/
-*.log
+libpeerconnection.log
