@@ -3,25 +3,42 @@
     -moz-border-radius: 999px;
     border-radius: 999px;
     /*behavior: url(PIE.htc);*/
+    display: inline-block;
 }
 
 .status_past {
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     background: black;
     border: 3px solid black;
 }
 
 .status_present {
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     background: red;
     border: 3px solid black;
 }
 
 .status_future {
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     background: white;
     border: 3px solid black;
+}
+
+.status_connect {
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+    width: 100px;
+    height: 10px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+.workflow_logo {
+    display: inline-block;
 }
