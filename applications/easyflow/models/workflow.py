@@ -13,6 +13,7 @@ db.define_table(
         Field('dataowner', db.auth_user, default=auth.user.id if auth.user
         else None, writable=False, readable=False),
         format = '%(name)s')
+
 db.define_table(
         'status',
         Field('id'),
@@ -23,6 +24,7 @@ db.define_table(
         Field('dataowner', db.auth_user, default=auth.user.id if auth.user
         else None, writable=False, readable=False),
         format = '%(name)s')
+
 db.define_table(
         'details',
         Field('id'),
@@ -33,17 +35,19 @@ db.define_table(
         Field('dataowner', db.auth_user, default=auth.user.id if auth.user
         else None, writable=False, readable=False),
         format = '%(name)s')
+
 db.define_table(
         'instances',
         Field('id'),
-        Field('workflow_id',db.workflow),
-        Field('active_status_id',db.status),
+        Field('workflow_id', db.workflow),
+        Field('active_status_id', db.status),
         format = '%(name)s')
+
 db.define_table(
         'instances_details',
         Field('id'),
-        Field('detail_id',db.details),
-        Field('instance_id',db.instances),
+        Field('detail_id', db.details),
+        Field('instance_id', db.instances),
         Field('instanceValue'),
         format = '%(name)s')
 
