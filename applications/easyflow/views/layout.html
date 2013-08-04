@@ -47,6 +47,8 @@
   response.files.append(URL('static','css/bootstrap-responsive.min.css'))
   response.files.append(URL('static','css/web2py_bootstrap.css'))
   response.files.append(URL('static','css/easyflow.css'))
+  response.files.append(URL('static','css/easyflow2.css'))
+  response.files.append(URL('static','css/font-awesome.min.css'))
   }}
 
   {{include 'web2py_ajax.html'}}
@@ -152,7 +154,7 @@
       <script src="{{=URL('static','js/dd_belatedpng.js')}}"></script>
       <script> DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images </script>
       <![endif]-->
-  
+ <!-- 
   {{if response.google_analytics_id:}}
   <script src="{{=URL('static','js/analytics.min.js')}}"></script>
   <script type="text/javascript">
@@ -160,7 +162,7 @@
     'Google Analytics':{trackingId:'{{=response.google_analytics_id}}'} 
   });</script>
   {{pass}}
-  <script src="{{=URL('static','js/share.js',vars=dict(static=URL('static','images')))}}"></script>
+  <script src="{{=URL('static','js/share.js',vars=dict(static=URL('static','images')))}}"></script> -->
 </body>
 </html>
 

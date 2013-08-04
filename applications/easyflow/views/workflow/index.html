@@ -1,11 +1,14 @@
 {{extend 'layout.html'}}
 
 {{block head}}
+
 <script type="text/javascript">
   	$.fn.serializeObject = function()
 {
+
     var o = {};
     var a = this.serializeArray();
+    console.log(a);
     $.each(a, function() {
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
@@ -22,17 +25,16 @@
 	angular.module('workflows', []).
 	 config(['$routeProvider', function($routeProvider) {
 	  $routeProvider.
-	      when('', {templateUrl: "{{=URL('static','templates/workflow/list.html')}}",   controller: workflowList}).
+	      when('/', {templateUrl: "{{=URL('static','templates/workflow/list.html')}}",   controller: workflowList}).
 	      when('/edit/:workflowID', {templateUrl: "{{=URL('static','templates/workflow/details.html')}}", controller: workflowDetails}).
 	      when('/create', {templateUrl: "{{=URL('static','templates/workflow/create.html')}}", controller: workflowCreate}).
 	      otherwise({redirectTo: '/'});
 	}]);
 	 function workflowList($scope, $http) {
 		  $http.get('http://127.0.0.1:8000/easyflow/workflow/view.json').success(function(data) {
-		  	$scope.workflows = data.records;
+		  		$scope.workflows = data.records;
 		  });
-		 
-	 }
+	}
 	 function workflowDetails($scope, $routeParams,$http) {
 	 	$scope.workflowID = $routeParams.workflowID;
 		$http.get("{{=URL('workflow','single.json')}}" +'/'+ $routeParams.workflowID).success(function(data) {
@@ -44,15 +46,32 @@
 
 	  function workflowCreate($scope,$routeParams,$http){
 
-	  	$('.modal').modal();
+	  	
 
 	  }
 
 	  function workflowManager($http,$scope){
- 			$scope.start  = function(workflowID,$event){
-	  			$http.get("{{=URL('workflow','start.json')}}?workflowID="+workflowID).success(function(data) {
-		  			console.log(data);
-		 		});
+ 			$scope.start  = function(workflow,$event){
+	  			$('.modal').remove();
+	  			$('body').append('<div class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">Start a new workflow <small>'+workflow.name+'</small></h4></div><div class="modal-body"><form id="startWorkflowForm"><fieldset><div class="form-group"><input type="text" class="form-control" name="title" placeholder="Add a title"></div><div class="form-group"><textarea rows="5" class="form-control" name="description" placeholder="Add a small description"></textarea></div></fieldset></form></div><div class="modal-footer"><button type="button" id="close" class="btn btn-default" data-dismiss="modal">Cancel</button><button type="button" id="start" class="btn btn-primary">Start</button></div></div></div></div>')
+ 				$('.modal').modal()
+ 				$('.modal').on('click','#start',function(){
+ 					var $that = $(this);
+ 					$(this).button('loading')
+ 					var name = $('.modal').find('#startWorkflowForm input[name=title]').val()
+ 					var description = $('.modal').find('#startWorkflowForm textarea[name=description]').val()
+ 					$http.get("{{=URL('workflow','start.json')}}?workflowID="+workflow.id+"&name="+name+"&description="+description).success(function(data) {
+		  				$('.modal-body').html('<div class="alert alert-success">Workflow ' +name+' started! </div>')
+						$that.button('reset');
+		  				$('.modal-footer').fadeOut(200).remove();
+		  					setTimeout(function(){
+		  						$('.modal').modal('hide')
+		  					},1000)
+		 			});
+ 				})
+
+
+	  			/* */
 	  		}
 	  		$scope.delete  = function(workflowID,$event){
 	  			$http.get("{{=URL('workflow','delete.json')}}?workflowID="+workflowID).success(function(data) {
@@ -64,18 +83,38 @@
 
 	  }
 	 function workflowCreator($http,$scope){
-	 	
+	 	$scope.workflows = {}
+	 	var status = {
+	 			'title':'',
+	 			'description':''
+	 		}
+	 	$scope.statuses = [];
+	 	$scope.statuses.push(status)
+	 	$scope.details = {}
+
 	 	$scope.add = function(){
-	 		$('.repeaters').append(' <div class="panel"><div class="panel-heading">Status #1</div><div class="repeat-input"><input type="text" name="status_title[]" placeholder="Title"><input type="text" name="status_description[]" placeholder="Description"></div><hr/><div class="details"><div class="repeat-detail"><label>Detail name</label><input type="text" name="detail_name[]"><label>Detail Type</label><select name="detail_type" disabled><option>Textfield</option></select></div></div></div></div>');
+	 		$scope.statuses.push(status)
+	 		$('#repeaters').append('<div class="panel" id="status_'+$scope.statuses.length+'" data-order="'+$scope.statuses.length+'"><div class="panel-heading">Status #'+$scope.statuses.length+'</div><div class="repeat-input"><div class="form-group"><input type="text" class="form-control" name="status_title" placeholder="Title"></div><div class="form-group"><textarea class="form-control" name="status_description" placeholder="Description"></textarea></div></div><div id="statuses" data-id="1" ><div class="details-wrapper" id="details_wrapper_1"><div class="details"><div class="page-header"><h5>Add details</h5></div><div class="row"><div class="col-lg-6"><input class="form-control" type="text" name="detail_name[]" placeholder="Detail Name"></div><div class="col-lg-6"><select class="form-control" name="detail_type" disabled><option>Textfield</option></select></div></div></div></div><a class="text-right pull-right" style="margin-top:20px" href="javascript:void(0)" ng-click="add_details(2)"><i class="icon-plus"></i> Add more details</a><div class="clearfix"></div></div>')
 	 	}
 	 	$scope.submit = function(){
-	 		console.log('running')
-	 		console.log($('form').serializeObject())
-	 		
-	 	}
-	 	$scope.add_details = function(){
 
-	 		$('.details').append('<div class="repeat-detail"><label>Detail name</label><input type="text" name="detail_name[]"><label>Detail Type</label><select name="detail_type" disabled><option>Textfield</option></select><a href="javascript:void(0)" ng-click="add_details()">Add details</a></div>');
+	 		/*
+	 		var workflows_stuff = $('#workflowstuff :input').serializeObject();
+	 		console.log(workflows_stuff)
+	 		$http.post("{{=URL('api','workflow')}}", workflows_stuff).success(function(data){
+		 		console.log(data)
+		 	});
+
+
+	 		var data = $('form').serialize();
+	 		console.log(data)
+	 		console.log(workflows_stuff)
+	 		var status_stuff = $('#repeaters :input').serializeObject();
+	 		console.log(status_stuff)
+	 		*/
+	 	}
+	 	$scope.add_details = function(where){
+			$('#status_'+where).find('.details-wrapper').append(' <div style="margin-top:10px" class="details"><div class="row"><div class="col-lg-6"><input class="form-control" type="text" name="detail_name[]" placeholder="Detail Name"></div><div class="col-lg-6"><select class="form-control" name="detail_type" disabled><option>Textfield</option></select></div></div></div>');
 	 	}
 
 	 }
@@ -85,12 +124,11 @@
 
 {{end}}
 
-<h2> {{= title}}</h2>
-<div class="">
-
-
-<div class="wrokflows-list">
+<div class="container">
+<div class="wrokflows-list row">
+	<div class="col-lg-12">
 	 <div ng-view></div>
+	</div>
 </div>
 </div>
 
