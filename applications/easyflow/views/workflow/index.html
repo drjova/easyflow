@@ -63,7 +63,7 @@
  					$http.get("{{=URL('workflow','start.json')}}?workflowID="+workflow.id+"&name="+name+"&description="+description).success(function(data) {
 		  				$('.modal-body').html('<div class="alert alert-success">Workflow ' +name+' started! </div>')
 						$that.button('reset');
-		  				$('.modal-footer').fadeOut(200).remove();
+		  				$('.modal-footer').fadeOut(200);
 		  					setTimeout(function(){
 		  						$('.modal').modal('hide')
 		  					},1000)
