@@ -16,7 +16,7 @@
     width: 25px;
     height: 25px;
     background: white;
-    border: 3px solid #ccc;
+    border: 3px solid black;
     z-index: 100;
     position: relative;
 }
@@ -34,27 +34,12 @@
     width: 25px;
     height: 25px;
     background: white;
-    border: 3px solid black;
+    border: 3px solid #ccc;
     z-index: 100;
     position: relative;
 }
 
 .status_past_connect {
-    border-top: 3px solid #ccc;
-    border-bottom: 3px solid #ccc;
-    background-color: #ccc;
-    width: 10px;
-    height: 13px;
-    display: inline-block;
-    margin-bottom: 6px;
-    margin-top: 6px;
-    margin-left: -5px;
-    margin-right: -5px;
-    z-index: 99;
-    position: relative;
-}
-
-.status_future_connect {
     border-top: 3px solid #2980b9;
     border-bottom: 3px solid #2980b9;
     background-color: #2980b9;
@@ -69,8 +54,24 @@
     position: relative;
 }
 
+.status_present_connect, .status_future_connect {
+    border-top: 3px solid #ccc;
+    border-bottom: 3px solid #ccc;
+    background-color: #ccc;
+    width: 10px;
+    height: 13px;
+    display: inline-block;
+    margin-bottom: 6px;
+    margin-top: 6px;
+    margin-left: -5px;
+    margin-right: -5px;
+    z-index: 99;
+    position: relative;
+}
+
 .workflow_logo {
     display: inline-block;
+    vertical-align: bottom;
 }
 
 body {
@@ -79,4 +80,14 @@ body {
 
 h2 {
     font-family: 'QuickSand', sans-serif;
+}
+
+h0 {
+    font-family: 'QuickSand', sans-serif;
+    font-size: 1000%;
+}
+
+.btn:hover, .btn:focus {
+    color: #2a6496;
+    text-decoration: underline;
 }

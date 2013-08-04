@@ -1,12 +1,17 @@
-{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
 {{extend 'layout.html'}}
 
-{{if 'message' in globals():}}
-<h3>{{=message}}</h3>
-{{elif 'content' in globals():}}
-{{=content}}
-{{else:}}
-{{=BEAUTIFY(response._vars)}}
-{{pass}}
-{{block right_sidebar}}
-{{end}}
+<div style="text-align: center; margin-top: 200px;">
+    <div style="display: inline-block;">
+        <img height="100px" src="{{=logo}}" />
+    </div>
+
+    <div style="display: inline-block; vertical-align: middle;">
+        <h0>{{=title}}</h0>
+    </div>
+
+    {{if subtitle:}}
+    <div style="display: inline-block; vertical-align: middle;">
+        <h2 style="letter-spacing: 4px; margin: 0px;">{{=subtitle}}</h2>
+    </div>
+    {{pass}}
+</div>

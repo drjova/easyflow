@@ -12,14 +12,14 @@
 
 def index():
     """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simple replace the two lines below with:
-    return auth.wiki()
     """
-    #response.flash = T("Welcome to web2py!")
-    return dict(message=T('Hello World'))
+    response.title = None
+    response.subtitle = None
+    title = request.application
+    subtitle = "Workflow Management & Visualization Tool"
+    return dict(title = title,
+                subtitle = subtitle,
+                logo = "/easyflow/static/images/easyflow_logo.png")
 
 
 def user():

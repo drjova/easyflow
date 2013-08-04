@@ -25,10 +25,10 @@ response.google_analytics_id = None
 
 response.menu = [
     (T('Home'), True, URL('home', 'index'), []),
-    (T('Workflow'), True, URL('workflow', 'index'), []),
     (T('View'), True, URL('view', 'index'), []),
-    (T('Instance'), True, URL('instance', 'index'), []),
+    (T('Manage'), True, URL('workflow', 'index'), []),
 ]
+
 
 DEVELOPMENT_MENU = False
 
