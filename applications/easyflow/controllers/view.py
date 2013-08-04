@@ -3,20 +3,8 @@ def index():
     """
 
     response.title = "My workflows"
-    response.subtitle = None
-    """
-    occurrences = \
-        db(
-            db.occurrence.user_id == auth.user_id).select(
-                join = [
-                    db.workflow.on(db.occurrence.workflow_id == db.workflow.id),
-                    db.status.on(db.occurrence.workflow_id == db.status.workflow_id),
-                    db.detail.on(db.detail.status_id == db.status.id),
-                ]
-        )
-    """
 
-    f = open("/tmp/skata", "a")
+    response.subtitle = None
 
     results = db(
         ( db.occurrence.user_id == auth.user_id ) & \
@@ -66,10 +54,5 @@ def index():
             status["details"] = details.as_list()
 
         result["occurrence"]["statuses"] = statuses.as_list()
-
-        f.write(str(result))
-
-    f.write(str("\n\n=================================================\n\n"))
-    f.close()
 
     return dict(results = results, app = "")

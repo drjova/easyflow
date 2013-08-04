@@ -3,6 +3,8 @@ from gluon.tools import Service
 service = Service()
 import json
 def index():
+  response.title = "Manage"
+  response.subtitle = None
   records = db(db.workflow.user_id==auth.user_id).select()
   if len(records) > 0:
     records = records
