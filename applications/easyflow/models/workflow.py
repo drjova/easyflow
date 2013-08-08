@@ -52,5 +52,13 @@ db.define_table(
         Field('detail_value', "string", default = None),
         format = '%(name)s')
 
+db.define_table(
+        'occurrence_status_detail',
+        Field('occurrence_id', db.occurrence),
+        Field('status_id', db.status),
+        Field('detail_id', db.detail),
+        Field('detail_value', "string", default = None),
+        format = '%(name)s')
+
 db.workflow.name.requires = IS_NOT_EMPTY()
 db.workflow.description.requires = IS_NOT_EMPTY()

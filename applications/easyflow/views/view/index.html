@@ -1,60 +1,63 @@
 {{extend 'layout.html'}}
 
-{{for result in results:}}
+{{for occurrence in occurrences:}}
 
-<div id="occurrence_{{=result["occurrence"]["id"]}}" style="padding-bottom: 25px; padding-top: 25px;">
+<div id="occurrence_{{=occurrence["occurrence"]["id"]}}" style="padding-bottom: 25px; padding-top: 25px;">
 
-     <div id="occurrence_{{=result["occurrence"]["id"]}}_title" style="padding-bottom: 25px;">
+     <div id="occurrence_{{=occurrence["occurrence"]["id"]}}_title" style="padding-bottom: 25px;">
 
         <div
-            data-title="{{=result["workflow"]["name"]}}"
-            data-content="{{=result["workflow"]["description"]}}"
+            data-title="{{=occurrence["workflow"]["name"]}}"
+            data-content="{{=occurrence["workflow"]["description"]}}"
             data-trigger="click"
             class="workflow_logo">
-                <img style="width: 75px;" src="/easyflow/static/images/{{=result["workflow"]["logo"]}}" />
+                <img style="width: 75px;" src="/easyflow/static/images/{{=occurrence["workflow"]["logo"]}}" />
         </div>
 
         <div style="display: inline-block; vertical-align: bottom;">
-            <h2 style="margin: 0px;">{{=result["occurrence"]["name"]}}</h2>
+            <h2 style="margin: 0px;">{{=occurrence["occurrence"]["name"]}}</h2>
         </div>
 
-        {{if result["occurrence"]["description"]:}}
+        {{if occurrence["occurrence"]["description"]:}}
         <div style="padding-top: 15px;">
-            <strong>Description:</strong> {{=result["occurrence"]["description"]}}
+            <strong>Description:</strong> {{=occurrence["occurrence"]["description"]}}
         </div>
         {{pass}}
 
     </div>
 
-    <div id="occurrence_{{=result["occurrence"]["id"]}}_progress">
+    <div id="occurrence_{{=occurrence["occurrence"]["id"]}}_progress">
 
+    {{status_id = occurrence["occurrence"]["status_id"]}}
     {{status_tense = "past"}}
-    {{status_length = len(result["occurrence"]["statuses"])}}
     {{status_counter = 0}}
-    {{for status in result["occurrence"]["statuses"]:}}
+
+    {{for status in occurrence["status"]:}}
 
         {{status_counter += 1}}
 
         {{if status_tense == "present":}}
-        {{status_tense = "future"}}
+            {{status_tense = "future"}}
         {{pass}}
 
-        {{if status_tense == "past" and status["is_current"]:}}
-        {{status_tense = "present"}}
+        {{if status_tense == "past" and status["id"] == occurrence["occurrence"]["status_id"]:}}
+            {{status_tense = "present"}}
         {{pass}}
 
         <div
             data-title="<strong>{{=status["name"]}}</strong>"
             data-content="
-            {{for detail in status["details"]:}}
-            <strong>{{=detail["detail"]["name"]}}:</strong> {{=detail["occurrence_detail"]["detail_value"]}}<br />
+            {{for detail in occurrence["detail"]:}}
+                {{if status["id"] == detail["occurrence_status_detail"]["status_id"]:}}
+                    <strong>{{=detail["detail"]["name"]}}:</strong> {{=detail["occurrence_status_detail"]["detail_value"]}}<br />
+                {{pass}}
             {{pass}}
             "
             data-trigger="hover"
             class="status_circle status_{{=status_tense}}">
         </div>
 
-        {{if status_counter < status_length:}}
+        {{if status_counter < occurrence["occurrence"]["num_statuses"]:}}
         <div class="status_{{=status_tense}}_connect">
         </div>
         {{pass}}
@@ -69,16 +72,16 @@
 
 <script type="text/javascript">
 
-    var total_width = $("#occurrence_{{=result["occurrence"]["id"]}}_progress").width();
-    var total_connections = $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_past_connect']").length + $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_present_connect']").length + $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_future_connect']").length;
+    var total_width = $("#occurrence_{{=occurrence["occurrence"]["id"]}}_progress").width();
+    var total_connections = $("#occurrence_{{=occurrence["occurrence"]["id"]}}_progress").children("div[class='status_past_connect']").length + $("#occurrence_{{=occurrence["occurrence"]["id"]}}_progress").children("div[class='status_present_connect']").length + $("#occurrence_{{=occurrence["occurrence"]["id"]}}_progress").children("div[class='status_future_connect']").length;
     var available_width = ( total_width - ( ( total_connections + 1 ) * 25 ));
     var connection_width = ( available_width / total_connections );
-    $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_past_connect']").animate({ width : connection_width + "px" }, 1000);
-    $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_present_connect']").animate({ width : connection_width + "px" }, 1000);
-    $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_future_connect']").animate({ width : connection_width + "px" }, 1000);
+    $("#occurrence_{{=occurrence["occurrence"]["id"]}}_progress").children("div[class='status_past_connect']").animate({ width : connection_width + "px" }, 1000);
+    $("#occurrence_{{=occurrence["occurrence"]["id"]}}_progress").children("div[class='status_present_connect']").animate({ width : connection_width + "px" }, 1000);
+    $("#occurrence_{{=occurrence["occurrence"]["id"]}}_progress").children("div[class='status_future_connect']").animate({ width : connection_width + "px" }, 1000);
 
-    $("#occurrence_{{=result["occurrence"]["id"]}}").find("div").popover({ html : true , placement : "auto" });
-    //$("#occurrence_{{=result["occurrence"]["id"]}}_progress").find("div[class='status_circle status_present']").popover("show");
+    $("#occurrence_{{=occurrence["occurrence"]["id"]}}").find("div").popover({ html : true , placement : "auto" });
+    //$("#occurrence_{{=occurrence["occurrence"]["id"]}}_progress").find("div[class='status_circle status_present']").popover("show");
 
 </script>
 

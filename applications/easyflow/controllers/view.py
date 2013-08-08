@@ -6,7 +6,8 @@ def index():
 
     response.subtitle = None
 
-    results = db(
+    # Get all the active occurrences for this user
+    occurrences = db(
         ( db.occurrence.user_id == auth.user_id ) & \
         ( db.occurrence.is_active == True )
     ).select(
@@ -18,41 +19,46 @@ def index():
         db.workflow.name,
         db.workflow.description,
         db.workflow.logo,
+        # TODO: order by date! oldest first
+        orderby = ~ db.occurrence.id,
         join = db.workflow.on( db.workflow.id == db.occurrence.workflow_id )
     )
 
-    for result in results:
+    # For each occurrence get the available statuses and the detail values
+    for occurrence in occurrences:
 
-        workflow_id = result["occurrence"]["workflow_id"]
-        occurrence_id = result["occurrence"]["id"]
-        status_id = result["occurrence"]["status_id"]
-
+        # Get all the statuses that belong to this occurrence's workflow, in order
         statuses = db(
-            ( db.status.workflow_id == workflow_id )
+            ( db.status.workflow_id == occurrence["occurrence"]["workflow_id"] )
         ).select(
             db.status.id,
             db.status.name,
             db.status.description,
-            db.status.workflow_order,
             orderby = db.status.workflow_order
         )
 
-        for status in statuses:
+        # Add the statuses to our current occurrence
+        # TODO: what if we have more occurrences with the same statuses? improve!
+        occurrence["status"] = statuses.as_list()
+        # Get the total number of statuses for this occurence
+        occurrence["occurrence"]["num_statuses"] = len(statuses)
 
-            status["is_current"] = status["id"] == status_id and True or False
+        # Get all the detail values for this occurrence, in order
+        details = db(
+            ( db.occurrence_status_detail.occurrence_id == occurrence["occurrence"]["id"] )
+        ).select(
+            db.occurrence_status_detail.status_id,
+            db.detail.name,
+            db.detail.description,
+            db.occurrence_status_detail.detail_value,
+            #orderby = db.status.workflow_order | db.detail.status_order,
+            orderby = db.detail.status_order,
+            distinct = True,
+            #join = db.occurrence_detail.on( ( db.detail.id == db.occurrence_status_detail.detail_id ) & ( db.status.id == db.occurrence_status_detail.status_id ) )
+            join = db.occurrence_detail.on( db.detail.id == db.occurrence_status_detail.detail_id )
+        )
 
-            details = db(
-                ( db.detail.status_id == status["id"] )
-            ).select(
-                db.detail.name,
-                db.detail.description,
-                db.occurrence_detail.detail_value,
-                orderby = db.detail.status_order,
-                join = db.occurrence_detail.on( ( db.occurrence_detail.occurrence_id == occurrence_id ) & ( db.occurrence_detail.detail_id == db.detail.id ) )
-            )
+        # Add the detail values to our current occurrence
+        occurrence["detail"] = details.as_list()
 
-            status["details"] = details.as_list()
-
-        result["occurrence"]["statuses"] = statuses.as_list()
-
-    return dict(results = results, app = "")
+    return dict(occurrences = occurrences, app = "")

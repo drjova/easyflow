@@ -1,0 +1,85 @@
+{{extend 'layout.html'}}
+
+{{for result in results:}}
+
+<div id="occurrence_{{=result["occurrence"]["id"]}}" style="padding-bottom: 25px; padding-top: 25px;">
+
+     <div id="occurrence_{{=result["occurrence"]["id"]}}_title" style="padding-bottom: 25px;">
+
+        <div
+            data-title="{{=result["workflow"]["name"]}}"
+            data-content="{{=result["workflow"]["description"]}}"
+            data-trigger="click"
+            class="workflow_logo">
+                <img style="width: 75px;" src="/easyflow/static/images/{{=result["workflow"]["logo"]}}" />
+        </div>
+
+        <div style="display: inline-block; vertical-align: bottom;">
+            <h2 style="margin: 0px;">{{=result["occurrence"]["name"]}}</h2>
+        </div>
+
+        {{if result["occurrence"]["description"]:}}
+        <div style="padding-top: 15px;">
+            <strong>Description:</strong> {{=result["occurrence"]["description"]}}
+        </div>
+        {{pass}}
+
+    </div>
+
+    <div id="occurrence_{{=result["occurrence"]["id"]}}_progress">
+
+    {{status_tense = "past"}}
+    {{status_length = len(result["occurrence"]["statuses"])}}
+    {{status_counter = 0}}
+    {{for status in result["occurrence"]["statuses"]:}}
+
+        {{status_counter += 1}}
+
+        {{if status_tense == "present":}}
+        {{status_tense = "future"}}
+        {{pass}}
+
+        {{if status_tense == "past" and status["is_current"]:}}
+        {{status_tense = "present"}}
+        {{pass}}
+
+        <div
+            data-title="<strong>{{=status["name"]}}</strong>"
+            data-content="
+            {{for detail in status["details"]:}}
+            <strong>{{=detail["detail"]["name"]}}:</strong> {{=detail["occurrence_detail"]["detail_value"]}}<br />
+            {{pass}}
+            "
+            data-trigger="hover"
+            class="status_circle status_{{=status_tense}}">
+        </div>
+
+        {{if status_counter < status_length:}}
+        <div class="status_{{=status_tense}}_connect">
+        </div>
+        {{pass}}
+
+    {{pass}}
+
+    </div>
+
+</div>
+
+<hr />
+
+<script type="text/javascript">
+
+    var total_width = $("#occurrence_{{=result["occurrence"]["id"]}}_progress").width();
+    var total_connections = $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_past_connect']").length + $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_present_connect']").length + $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_future_connect']").length;
+    var available_width = ( total_width - ( ( total_connections + 1 ) * 25 ));
+    var connection_width = ( available_width / total_connections );
+    $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_past_connect']").animate({ width : connection_width + "px" }, 1000);
+    $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_present_connect']").animate({ width : connection_width + "px" }, 1000);
+    $("#occurrence_{{=result["occurrence"]["id"]}}_progress").children("div[class='status_future_connect']").animate({ width : connection_width + "px" }, 1000);
+
+    $("#occurrence_{{=result["occurrence"]["id"]}}").find("div").popover({ html : true , placement : "auto" });
+    //$("#occurrence_{{=result["occurrence"]["id"]}}_progress").find("div[class='status_circle status_present']").popover("show");
+
+</script>
+
+{{pass}}
