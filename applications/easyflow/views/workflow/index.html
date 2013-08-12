@@ -31,7 +31,8 @@
 	      otherwise({redirectTo: '/'});
 	}]);
 	 function workflowList($scope, $http) {
-		  $http.get('http://127.0.0.1:8000/easyflow/workflow/view.json').success(function(data) {
+		
+		  $http.get("{{=URL('workflow','view.json')}}").success(function(data) {
 		  		$scope.workflows = data.records;
 		  });
 	}
