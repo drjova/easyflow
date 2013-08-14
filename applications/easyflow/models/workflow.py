@@ -1,9 +1,17 @@
 # coding: utf8
+# Include Auth 
 from gluon.tools import Auth
 auth = Auth(db, controller="home")
 auth.define_tables()
+# Include current
+from gluon import current
+current.auth = auth
+
+# Include Crud
 from gluon.tools import Crud
 crud = Crud(db)
+
+
 
 db.define_table(
         'workflow',

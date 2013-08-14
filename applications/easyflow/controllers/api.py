@@ -1,26 +1,19 @@
-"""from gluon.tools import Service
-service = Service()
-import json
-def call():
-    return service()
+# track module changes
+from gluon.custom_import import track_changes; track_changes(True)
 
-@service.json
-def addWorkflow(name,description):
-    workflowID = db.workflow.insert(name=name,description=description)
-    return dict(inserted=workflowID)
-@service.json
-def addStatus(workflowID,args):
-	if workflow:
-		args = json.loads(args)
-		return dict(args=args)"""
+from gluon import current
+db = current.db
+auth = current.auth
 
+from workflows import *
 @request.restful()
 def workflow():
     response.view = 'generic.json'
-    def GET(id):
-        return dict(person = db.workflow(id))
+    def GET():
+        w = Workflow()
+        return dict(workflows=w.get())
     def POST(**fields):
-        return db.workflow.validate_and_insert(**fields)
+        return fields
     def PUT(**fields):
         return db.workflow.validate_and_insert(**fields)
     return locals()

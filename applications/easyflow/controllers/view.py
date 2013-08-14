@@ -1,5 +1,11 @@
 def index():
     """
+        ** New! 
+            
+            from workflows import *
+
+            and use the Workflow::get(id,depth)
+        **
     """
 
     response.title = "My workflows"
